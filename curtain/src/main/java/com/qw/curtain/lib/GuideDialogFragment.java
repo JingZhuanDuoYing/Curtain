@@ -59,6 +59,7 @@ public class GuideDialogFragment extends DialogFragment implements IGuide {
     public void show() {
         guideView.setId(GUIDE_ID);
         this.contentView = new FrameLayout(guideView.getContext());
+        this.contentView.setFitsSystemWindows(param.fitSystemWindow);
         this.contentView.addView(guideView);
         if (topLayoutRes != 0) {
             updateTopView();

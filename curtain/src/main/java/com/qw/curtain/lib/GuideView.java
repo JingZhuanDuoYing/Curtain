@@ -13,6 +13,8 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.util.SparseArray;
 import android.view.View;
+import android.view.ViewParent;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.collection.ArrayMap;
@@ -121,6 +123,14 @@ public class GuideView extends View {
         if (info.getOffset(HollowInfo.HORIZONTAL) > 0) {
             info.targetBound.right += info.getOffset(HollowInfo.HORIZONTAL);
             info.targetBound.left += info.getOffset(HollowInfo.HORIZONTAL);
+        }
+        ViewParent parent = this.getParent();
+        if (parent instanceof FrameLayout) {
+            boolean isFitsSystemWindows = ((FrameLayout) parent).getFitsSystemWindows();
+            if (isFitsSystemWindows) {
+                info.targetBound.top -= getStatusBarHeight(getContext());
+                info.targetBound.bottom -= getStatusBarHeight(getContext());
+            }
         }
         //draw highlight info
         realDrawHollows(info, canvas);

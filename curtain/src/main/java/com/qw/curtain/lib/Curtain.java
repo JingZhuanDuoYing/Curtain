@@ -215,6 +215,11 @@ public class Curtain {
         return this;
     }
 
+    public Curtain setFitSystemWindow(boolean fitSystemWindow) {
+        this.buildParams.fitSystemWindow = fitSystemWindow;
+        return this;
+    }
+
     @MainThread
     public void show() {
         SparseArray<HollowInfo> hollows = buildParams.hollows;
@@ -272,6 +277,7 @@ public class Curtain {
 
         SparseArray<OnViewInTopClickListener> topViewOnClickListeners = new SparseArray<>();
 
+        boolean fitSystemWindow = false;
     }
 
     public interface CallBack {
