@@ -122,9 +122,6 @@ public class GuideView extends View {
             info.targetBound.right += info.getOffset(HollowInfo.HORIZONTAL);
             info.targetBound.left += info.getOffset(HollowInfo.HORIZONTAL);
         }
-        //status bar height
-        info.targetBound.top -= getStatusBarHeight(getContext());
-        info.targetBound.bottom -= getStatusBarHeight(getContext());
         //draw highlight info
         realDrawHollows(info, canvas);
         mPositionCache.put(info, info);

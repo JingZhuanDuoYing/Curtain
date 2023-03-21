@@ -1,11 +1,12 @@
 <resources>
 
-    <style name="TransparentDialog" parent="@android:style/Theme.Dialog">
+    <style name="CurtainTransparentDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@null</item>
         <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
     <style name="dialogWindowAnim" parent="@android:style/Animation">

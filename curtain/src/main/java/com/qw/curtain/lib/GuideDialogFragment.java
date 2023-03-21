@@ -131,11 +131,11 @@ public class GuideDialogFragment extends DialogFragment implements IGuide {
         if (dialog == null) {
             boolean isInterceptAll = param.isInterceptTouchEvent && param.isInterceptTarget;
             if (isInterceptAll) {
-                dialog = new Dialog(requireActivity(), R.style.TransparentDialog);
+                dialog = new Dialog(requireActivity(), R.style.CurtainTransparentDialog);
             } else {
                 dialog = !param.isInterceptTouchEvent ?
-                        new NoInterceptActivityDialog(requireActivity(), R.style.TransparentDialog) :
-                        new NoInterceptViewAlertDialog(requireActivity(), R.style.TransparentDialog, param.hollows);
+                        new NoInterceptActivityDialog(requireActivity(), R.style.CurtainTransparentDialog) :
+                        new NoInterceptViewAlertDialog(requireActivity(), R.style.CurtainTransparentDialog, param.hollows);
             }
             dialog.setContentView(contentView);
             setAnimation(dialog);
