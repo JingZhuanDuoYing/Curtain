@@ -1,12 +1,10 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="CurtainTransparentDialog" parent="@android:style/Theme.Dialog">
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowAnimationStyle">@null</item>
+    <style name="CurtainTransparentDialog" parent="ThemeOverlay.MaterialComponents">
+        <item name="android:windowFullscreen">false</item>
         <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:statusBarColor" tools:ignore="NewApi">@android:color/transparent</item>
     </style>
 
     <style name="dialogWindowAnim" parent="@android:style/Animation">

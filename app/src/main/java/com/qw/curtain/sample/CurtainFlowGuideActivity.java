@@ -99,7 +99,6 @@ public class CurtainFlowGuideActivity extends AppCompatActivity {
         return new Curtain(CurtainFlowGuideActivity.this)
                 .with(findViewById(R.id.iv_guide_first))
                 .setNoCurtainAnimation(true)
-                .setFitSystemWindow(true)
                 .setTopView(R.layout.view_guide_flow1);
     }
 

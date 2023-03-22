@@ -125,13 +125,6 @@ public class GuideView extends View {
             info.targetBound.left += info.getOffset(HollowInfo.HORIZONTAL);
         }
         ViewParent parent = this.getParent();
-        if (parent instanceof FrameLayout) {
-            boolean isFitsSystemWindows = ((FrameLayout) parent).getFitsSystemWindows();
-            if (isFitsSystemWindows) {
-                info.targetBound.top -= getStatusBarHeight(getContext());
-                info.targetBound.bottom -= getStatusBarHeight(getContext());
-            }
-        }
         //draw highlight info
         realDrawHollows(info, canvas);
         mPositionCache.put(info, info);

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.FrameLayout;
 
 import androidx.annotation.LayoutRes;
@@ -59,7 +60,6 @@ public class GuideDialogFragment extends DialogFragment implements IGuide {
     public void show() {
         guideView.setId(GUIDE_ID);
         this.contentView = new FrameLayout(guideView.getContext());
-        this.contentView.setFitsSystemWindows(param.fitSystemWindow);
         this.contentView.addView(guideView);
         if (topLayoutRes != 0) {
             updateTopView();
@@ -132,7 +132,19 @@ public class GuideDialogFragment extends DialogFragment implements IGuide {
         if (dialog == null) {
             boolean isInterceptAll = param.isInterceptTouchEvent && param.isInterceptTarget;
             if (isInterceptAll) {
-                dialog = new Dialog(requireActivity(), R.style.CurtainTransparentDialog);
+                dialog = new Dialog(requireActivity(), R.style.CurtainTransparentDialog) {
+                    @Override
+                    protected void onCreate(Bundle savedInstanceState) {
+                        super.onCreate(savedInstanceState);
+                        Window window = getWindow();
+                        if (window != null) {
+                            window.getDecorView().setSystemUiVisibility(
+                                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                                            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+                        }
+                    }
+                };
             } else {
                 dialog = !param.isInterceptTouchEvent ?
                         new NoInterceptActivityDialog(requireActivity(), R.style.CurtainTransparentDialog) :
