@@ -83,9 +83,9 @@ public class GuideView extends View {
     }
 
     private void drawBackGround(Canvas canvas) {
-        mPaint.setXfermode(null);
-        mPaint.setColor(mCurtainColor);
-        canvas.drawRect(0, 0, getWidth(), getHeight(), mPaint);
+//        mPaint.setXfermode(null);
+//        mPaint.setColor(mCurtainColor);
+//        canvas.drawRect(0, 0, getWidth(), getHeight(), mPaint);
     }
 
     private void drawHollowFields(Canvas canvas) {

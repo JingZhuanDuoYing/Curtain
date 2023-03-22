@@ -1,5 +1,7 @@
 package com.qw.curtain.lib;
 
+import static com.qw.curtain.lib.InnerUtils.getStatusBarHeight;
+
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -60,6 +62,7 @@ public class GuideDialogFragment extends DialogFragment implements IGuide {
     public void show() {
         guideView.setId(GUIDE_ID);
         this.contentView = new FrameLayout(guideView.getContext());
+        this.contentView.setPadding(0, getStatusBarHeight(guideView.getContext()), 0, 0);
         this.contentView.addView(guideView);
         if (topLayoutRes != 0) {
             updateTopView();
@@ -203,6 +206,7 @@ public class GuideDialogFragment extends DialogFragment implements IGuide {
         if (contentView.getChildCount() == MAX_CHILD_COUNT) {
             contentView.removeViewAt(1);
         }
+        contentView.setBackgroundColor(param.curtainColor);
         LayoutInflater.from(contentView.getContext()).inflate(topLayoutRes, contentView, true);
         //on top view click listeners
         SparseArray<OnViewInTopClickListener> listeners = param.topViewOnClickListeners;

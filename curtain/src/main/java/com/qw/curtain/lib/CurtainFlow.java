@@ -128,7 +128,6 @@ public class CurtainFlow implements CurtainFlowInterface {
     private void updateCurtainInfo(Curtain curtain) {
         Curtain.Param param = curtain.buildParams;
         GuideView guideView = new GuideView(param.activity);
-        guideView.setCurtainColor(param.curtainColor);
         guideView.setHollowInfo(param.hollows);
         guider.setGuideView(guideView);
         guider.setCancelable(param.cancelBackPressed);
