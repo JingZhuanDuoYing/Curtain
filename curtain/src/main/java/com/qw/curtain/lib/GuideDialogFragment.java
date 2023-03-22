@@ -3,6 +3,7 @@ package com.qw.curtain.lib;
 import static com.qw.curtain.lib.InnerUtils.getStatusBarHeight;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.SparseArray;
@@ -10,10 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -30,6 +33,7 @@ public class GuideDialogFragment extends DialogFragment implements IGuide {
     private static final int GUIDE_ID = 0x3;
 
     private FrameLayout contentView;
+    private LinearLayoutCompat dialogLayout;
 
     private Dialog dialog;
 
@@ -61,8 +65,21 @@ public class GuideDialogFragment extends DialogFragment implements IGuide {
 
     public void show() {
         guideView.setId(GUIDE_ID);
+        Context context = guideView.getContext();
         this.contentView = new FrameLayout(guideView.getContext());
-        this.contentView.setPadding(0, getStatusBarHeight(guideView.getContext()), 0, 0);
+
+        dialogLayout = new LinearLayoutCompat(context);
+        dialogLayout.setOrientation(LinearLayout.VERTICAL);
+
+        View statusBarView = new View(context);
+        statusBarView.setLayoutParams(new LinearLayoutCompat.LayoutParams(
+                LinearLayoutCompat.LayoutParams.MATCH_PARENT,
+                getStatusBarHeight(context)
+        ));
+        statusBarView.setBackgroundColor(param.curtainColor);
+        dialogLayout.addView(statusBarView);
+        dialogLayout.addView(contentView);
+
         this.contentView.addView(guideView);
         if (topLayoutRes != 0) {
             updateTopView();
@@ -153,7 +170,7 @@ public class GuideDialogFragment extends DialogFragment implements IGuide {
                         new NoInterceptActivityDialog(requireActivity(), R.style.CurtainTransparentDialog) :
                         new NoInterceptViewAlertDialog(requireActivity(), R.style.CurtainTransparentDialog, param.hollows);
             }
-            dialog.setContentView(contentView);
+            dialog.setContentView(dialogLayout);
             setAnimation(dialog);
         }
         return dialog;
@@ -206,7 +223,7 @@ public class GuideDialogFragment extends DialogFragment implements IGuide {
         if (contentView.getChildCount() == MAX_CHILD_COUNT) {
             contentView.removeViewAt(1);
         }
-        contentView.setBackgroundColor(param.curtainColor);
+        guideView.setCurtainColor(param.curtainColor);
         LayoutInflater.from(contentView.getContext()).inflate(topLayoutRes, contentView, true);
         //on top view click listeners
         SparseArray<OnViewInTopClickListener> listeners = param.topViewOnClickListeners;

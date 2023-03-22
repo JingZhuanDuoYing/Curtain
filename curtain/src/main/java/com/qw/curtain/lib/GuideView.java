@@ -83,9 +83,9 @@ public class GuideView extends View {
     }
 
     private void drawBackGround(Canvas canvas) {
-//        mPaint.setXfermode(null);
-//        mPaint.setColor(mCurtainColor);
-//        canvas.drawRect(0, 0, getWidth(), getHeight(), mPaint);
+        mPaint.setXfermode(null);
+        mPaint.setColor(mCurtainColor);
+        canvas.drawRect(0, 0, getWidth(), getHeight(), mPaint);
     }
 
     private void drawHollowFields(Canvas canvas) {
@@ -124,7 +124,9 @@ public class GuideView extends View {
             info.targetBound.right += info.getOffset(HollowInfo.HORIZONTAL);
             info.targetBound.left += info.getOffset(HollowInfo.HORIZONTAL);
         }
-        ViewParent parent = this.getParent();
+        //status bar height
+        info.targetBound.top -= getStatusBarHeight(getContext());
+        info.targetBound.bottom -= getStatusBarHeight(getContext());
         //draw highlight info
         realDrawHollows(info, canvas);
         mPositionCache.put(info, info);
