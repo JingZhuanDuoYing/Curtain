@@ -12,6 +12,25 @@
  
  ![image](https://img-blog.csdnimg.cn/20191009181206920.png)
 
+## About forks
+
+* 适配状态栏颜色
+
+```gradle
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+
+```gradle
+	dependencies {
+	        implementation 'com.github.JingZhuanDuoYing:Curtain:1.0.2'
+	}
+```
+
 ## Installation：
 
 ```java
