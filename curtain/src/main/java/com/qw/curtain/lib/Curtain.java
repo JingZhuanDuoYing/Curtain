@@ -18,6 +18,8 @@ import androidx.fragment.app.FragmentManager;
 import com.qw.curtain.lib.debug.CurtainDebug;
 import com.qw.curtain.lib.shape.Shape;
 
+import java.lang.ref.WeakReference;
+
 /**
  * https://github.com/soulqw/Curtain
  *
@@ -39,7 +41,7 @@ public class Curtain {
 
     public Curtain(@NonNull FragmentActivity activity) {
         this.buildParams = new Param();
-        buildParams.activity = activity;
+        buildParams.setContext(activity);
         buildParams.hollows = new SparseArray<>();
         buildParams.fragmentManager = activity.getSupportFragmentManager();
     }
@@ -250,7 +252,7 @@ public class Curtain {
 
     public static class Param {
 
-        Context activity;
+        WeakReference<Context> activityRef;
 
         FragmentManager fragmentManager;
 
@@ -271,6 +273,14 @@ public class Curtain {
         int animationStyle = Constance.STATE_NOT_SET;
 
         SparseArray<OnViewInTopClickListener> topViewOnClickListeners = new SparseArray<>();
+
+        public Context getContent() {
+            return activityRef.get();
+        }
+
+        public void setContext(Context context) {
+            this.activityRef = new WeakReference<Context>(context);
+        }
     }
 
     public interface CallBack {

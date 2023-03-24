@@ -51,7 +51,7 @@ public class GuideDialogFragment extends DialogFragment implements IGuide {
         guider.setTopViewRes(param.topLayoutRes);
 
         //build contentView
-        GuideView guideView = new GuideView(param.activity);
+        GuideView guideView = new GuideView(param.getContent());
         guideView.setCurtainColor(param.curtainColor);
         SparseArray<HollowInfo> hollows = param.hollows;
         HollowInfo[] tobeDraw = new HollowInfo[hollows.size()];
