@@ -67,7 +67,7 @@ public class CurtainFlow implements CurtainFlowInterface {
         }
         guider = new GuideDialogFragment();
         updateCurtainInfo(curtain);
-        guider.show();
+        guider.show(curtain.getActivity());
         if (null != callBack) {
             callBack.onProcess(currentCurtainId, this);
         }
@@ -127,7 +127,7 @@ public class CurtainFlow implements CurtainFlowInterface {
 
     private void updateCurtainInfo(Curtain curtain) {
         Curtain.Param param = curtain.buildParams;
-        GuideView guideView = new GuideView(param.getContent());
+        GuideView guideView = new GuideView(curtain.getActivity());
         guideView.setHollowInfo(param.hollows);
         guider.setGuideView(guideView);
         guider.setCancelable(param.cancelBackPressed);

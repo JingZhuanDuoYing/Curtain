@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.qw.curtain.lib.dialog.NoInterceptActivityDialog;
@@ -32,6 +33,8 @@ public class GuideDialogFragment extends DialogFragment implements IGuide {
 
     private static final int GUIDE_ID = 0x3;
 
+    private static final String EXTRA_PARAM = "extra_param";
+
     private FrameLayout contentView;
     private LinearLayoutCompat dialogLayout;
 
@@ -43,7 +46,7 @@ public class GuideDialogFragment extends DialogFragment implements IGuide {
 
     private Curtain.Param param;
 
-    public static GuideDialogFragment newInstance(Curtain.Param param) {
+    public static GuideDialogFragment newInstance(Curtain.Param param, Context context) {
         //build dialogFragment
         GuideDialogFragment guider = new GuideDialogFragment();
         guider.setParam(param);
@@ -51,7 +54,7 @@ public class GuideDialogFragment extends DialogFragment implements IGuide {
         guider.setTopViewRes(param.topLayoutRes);
 
         //build contentView
-        GuideView guideView = new GuideView(param.getContent());
+        GuideView guideView = new GuideView(context);
         guideView.setCurtainColor(param.curtainColor);
         SparseArray<HollowInfo> hollows = param.hollows;
         HollowInfo[] tobeDraw = new HollowInfo[hollows.size()];
@@ -63,13 +66,13 @@ public class GuideDialogFragment extends DialogFragment implements IGuide {
         return guider;
     }
 
-    public void show() {
+    public void show(FragmentActivity activity) {
         guideView.setId(GUIDE_ID);
-        Context context = guideView.getContext();
-        this.contentView = new FrameLayout(guideView.getContext());
+        Context context = activity;
+        this.contentView = new FrameLayout(context);
 
         dialogLayout = new LinearLayoutCompat(context);
-        dialogLayout.setOrientation(LinearLayout.VERTICAL);
+        dialogLayout.setOrientation(LinearLayoutCompat.VERTICAL);
 
         View statusBarView = new View(context);
         statusBarView.setLayoutParams(new LinearLayoutCompat.LayoutParams(
@@ -84,7 +87,7 @@ public class GuideDialogFragment extends DialogFragment implements IGuide {
         if (topLayoutRes != 0) {
             updateTopView();
         }
-        show(param.fragmentManager, Constance.CURTAIN_FRAGMENT);
+        show(activity.getSupportFragmentManager(), Constance.CURTAIN_FRAGMENT);
     }
 
     public void setParam(Curtain.Param param) {

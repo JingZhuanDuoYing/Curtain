@@ -29,6 +29,8 @@ public class Curtain {
 
     Param buildParams;
 
+    WeakReference<FragmentActivity> activityRef;
+
     /**
      * fragment must have an host,so it must attach to an activity
      *
@@ -36,14 +38,12 @@ public class Curtain {
      */
     public Curtain(@NonNull Fragment fragment) {
         this(fragment.requireActivity());
-        buildParams.fragmentManager = fragment.getChildFragmentManager();
     }
 
     public Curtain(@NonNull FragmentActivity activity) {
+        activityRef = new WeakReference<>(activity);
         this.buildParams = new Param();
-        buildParams.setContext(activity);
         buildParams.hollows = new SparseArray<>();
-        buildParams.fragmentManager = activity.getSupportFragmentManager();
     }
 
     /**
@@ -115,6 +115,10 @@ public class Curtain {
     public Curtain withShape(@NonNull View which, Shape shape) {
         getHollowInfo(which).setShape(shape);
         return this;
+    }
+
+    public FragmentActivity getActivity() {
+        return activityRef.get();
     }
 
     /**
@@ -235,8 +239,8 @@ public class Curtain {
             return;
         }
         GuideDialogFragment
-                .newInstance(buildParams)
-                .show();
+                .newInstance(buildParams, activityRef.get())
+                .show(activityRef.get());
     }
 
     private HollowInfo getHollowInfo(View which) {
@@ -251,10 +255,6 @@ public class Curtain {
     }
 
     public static class Param {
-
-        WeakReference<Context> activityRef;
-
-        FragmentManager fragmentManager;
 
         SparseArray<HollowInfo> hollows;
 
@@ -273,14 +273,6 @@ public class Curtain {
         int animationStyle = Constance.STATE_NOT_SET;
 
         SparseArray<OnViewInTopClickListener> topViewOnClickListeners = new SparseArray<>();
-
-        public Context getContent() {
-            return activityRef.get();
-        }
-
-        public void setContext(Context context) {
-            this.activityRef = new WeakReference<Context>(context);
-        }
     }
 
     public interface CallBack {
