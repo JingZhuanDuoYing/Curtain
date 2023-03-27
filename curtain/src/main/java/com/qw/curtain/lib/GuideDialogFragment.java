@@ -27,7 +27,7 @@ import com.qw.curtain.lib.dialog.NoInterceptViewAlertDialog;
 /**
  * @author cd5160866
  */
-public class GuideDialogFragment extends DialogFragment implements IGuide {
+public class GuideDialogFragment extends DialogFragment implements IGuide, DialogInterface.OnShowListener {
 
     private static final int MAX_CHILD_COUNT = 2;
 
@@ -45,6 +45,7 @@ public class GuideDialogFragment extends DialogFragment implements IGuide {
     private GuideView guideView;
 
     private Curtain.Param param;
+    private DialogInterface.OnShowListener onShowListener;
 
     public static GuideDialogFragment newInstance(Curtain.Param param, Context context) {
         //build dialogFragment
@@ -67,9 +68,15 @@ public class GuideDialogFragment extends DialogFragment implements IGuide {
     }
 
     public void show(FragmentActivity activity) {
+        show(activity, null);
+    }
+
+    public void show(FragmentActivity activity, DialogInterface.OnShowListener onShowListener) {
         guideView.setId(GUIDE_ID);
         Context context = activity;
         this.contentView = new FrameLayout(context);
+
+        this.onShowListener = onShowListener;
 
         dialogLayout = new LinearLayoutCompat(context);
         dialogLayout.setOrientation(LinearLayoutCompat.VERTICAL);
@@ -153,6 +160,11 @@ public class GuideDialogFragment extends DialogFragment implements IGuide {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         if (dialog == null) {
+            if (param == null) {
+                dismissGuide();
+                return super.onCreateDialog(savedInstanceState);
+            }
+
             boolean isInterceptAll = param.isInterceptTouchEvent && param.isInterceptTarget;
             if (isInterceptAll) {
                 dialog = new Dialog(requireActivity(), R.style.CurtainTransparentDialog) {
@@ -175,6 +187,7 @@ public class GuideDialogFragment extends DialogFragment implements IGuide {
             }
             dialog.setContentView(dialogLayout);
             setAnimation(dialog);
+            dialog.setOnShowListener(this);
         }
         return dialog;
     }
@@ -186,7 +199,9 @@ public class GuideDialogFragment extends DialogFragment implements IGuide {
         } catch (Exception e) {
             return;
         }
-        if (null != param.callBack) {
+        if (null == param) {
+            dismissGuide();
+        } else if (null != param.callBack) {
             param.callBack.onShow(this);
         }
     }
@@ -194,7 +209,7 @@ public class GuideDialogFragment extends DialogFragment implements IGuide {
     @Override
     public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
-        if (null != param.callBack) {
+        if (null != param && null != param.callBack) {
             param.callBack.onDismiss(this);
         }
     }
@@ -247,4 +262,10 @@ public class GuideDialogFragment extends DialogFragment implements IGuide {
         }
     }
 
+    @Override
+    public void onShow(DialogInterface dialog) {
+        if (onShowListener != null) {
+            onShowListener.onShow(dialog);
+        }
+    }
 }

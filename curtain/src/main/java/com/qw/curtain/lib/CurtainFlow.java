@@ -57,20 +57,16 @@ public class CurtainFlow implements CurtainFlowInterface {
         }
         View checkStatusView = curtain.buildParams.hollows.valueAt(0).targetView;
         if (checkStatusView.getWidth() == 0) {
-            checkStatusView.post(new Runnable() {
-                @Override
-                public void run() {
-                    start(callBack);
-                }
-            });
+            checkStatusView.post(() -> start(callBack));
             return;
         }
         guider = new GuideDialogFragment();
         updateCurtainInfo(curtain);
-        guider.show(curtain.getActivity());
-        if (null != callBack) {
-            callBack.onProcess(currentCurtainId, this);
-        }
+        guider.show(curtain.getActivity(), dialog -> {
+            if (null != callBack) {
+                callBack.onProcess(currentCurtainId, this);
+            }
+        });
     }
 
     @Override
